@@ -6,6 +6,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2m4OCIdWncZaWe1xovQ2xsxGb-YGHmi76GA&usqp=CAU" type="image/x-icon">
 
     
     <!-- Bootstrap CSS v5.2.1 -->
@@ -23,7 +24,7 @@
             <div class="cart-content">
                 <div class="cart-content__product">
                     <img src="" alt="">
-                    <span>Product - $50000</span>
+                    <span>{{product.name}}  -  {{new Intl.NumberFormat("es-AR", { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(product.price)}}</span>
                 </div>
             </div>
         </header>
@@ -37,11 +38,11 @@
                 </div>
             </section>
             <section class="description">
-                <h4>Product</h4>
+                <h4>{{product.name.toUpperCase()}} {{product.stock === 0 ? "😿" : "😎"}}</h4>
                 <span class="badge new"> New</span>
                 <span class="badge offer">Offer</span>
                 <p class="description__status"></p>
-                <p class="description__price">$50000</p>
+                <p class="description__price">{{new Intl.NumberFormat("es-AR", { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(product.price)}}</p>
                 <p class="description__content">
                     Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate!
                 </p>
