@@ -23,7 +23,11 @@
             <button class="cart">Shopping Cart (0)</button>
             <div class="cart-content">
                 <div class="cart-content__product">
-                    <img src="" alt="">
+                    <img v-bind:src="product.images[0].image" :alt="product.name.toUpperCase()">
+                    <span>{{product.name}}  -  {{new Intl.NumberFormat("es-AR", { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(product.price)}}</span>
+                </div>
+                <div class="cart-content__product">
+                    <img v-bind:src="product.images[1].image" :alt="product.name.toUpperCase()">
                     <span>{{product.name}}  -  {{new Intl.NumberFormat("es-AR", { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(product.price)}}</span>
                 </div>
             </div>
@@ -31,7 +35,8 @@
         <main>
             <section class="product">
                 <div class="product__thumbnails">
-                    <div class="thumb"></div>
+                    <div class="thumb" :class="{active: activeImage ===0}" :style="{backgroundImage: 'url(' +product.images[0].thumbnail +')'}"></div>
+                    <div class="thumb" :class="{active: activeImage ===1}" :style="{backgroundImage: 'url(' +product.images[1].thumbnail +')'}"></div>
                 </div>
                 <div class="product__image">
                     <img src="" alt="">
