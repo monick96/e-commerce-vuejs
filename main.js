@@ -18,9 +18,12 @@ const app = createApp({
                     thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGddu3MsmzENjoU7NU2fnFU9Uk-mBK1GOinw&usqp=CAU",
                     }
             ],
-                
+            new:false,
+            offer:true
             },
-            activeImage: 1
+            activeImage: 1,
+            cartOpen:true,
+            
         }
     }
 });
