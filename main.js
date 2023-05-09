@@ -6,7 +6,7 @@ const app = createApp({
             product: {
                 name:"Camera",
                 price: 400_000,
-                stock:500,
+                stock:12,
                 content:"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate",
                 images:[ 
                     {
@@ -22,12 +22,12 @@ const app = createApp({
             offer:true
             },
             activeImage: 0,
-            cartOpen:true,
+            cartOpen:false,
             cart:[
                 {
                     name:"Camera",
                     price: 400_000,
-                    stock:500,
+                    stock:0,
                     content:"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate",
                     images:[ 
                         {
