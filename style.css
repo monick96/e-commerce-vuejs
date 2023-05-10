@@ -88,6 +88,9 @@ main .product .product__thumbnails .thumb {
 main .product .product__thumbnails .thumb.active {
     border-bottom: 1px solid rgb(82, 82, 194);
 }
+main .product__image img{
+    width: 80%;
+}
 
 main .description h4 {
     display: inline-block;

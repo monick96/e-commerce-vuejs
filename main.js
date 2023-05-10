@@ -1,12 +1,13 @@
 const {createApp} = Vue;
-
+//version option API
 const app = createApp({
+    //data() todo lo que contiene data corresponde a un proxy, todo lo que contiene data es observado por vue para reaccionar y ejecutar cuando alguna propiedad cambie
     data(){
         return{
             product: {
                 name:"Camera",
                 price: 400_000,
-                stock:500,
+                stock:12,
                 content:"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate",
                 images:[ 
                     {
@@ -19,10 +20,31 @@ const app = createApp({
                     }
             ],
             new:false,
-            offer:true
+            offer:true,
+            quantity:1
             },
-            activeImage: 1,
-            cartOpen:true,
+            activeImage: 0,
+            cartOpen:false,
+            cart:[],
+            discountCodes:["commerce50","commerce20"]
+        }
+    },
+    methods:{
+        applyDiscount(event){
+            const discountCodeIndex = this.discountCodes.indexOf(event.target.value)
+            if (discountCodeIndex >= 0){
+                this.product.price *= 50/100
+                this.discountCodes.splice(discountCodeIndex,1);
+            }
+        },
+        addToCart(){
+            const prodIndex = this.cart.findIndex(prod=> prod.name === this.product.name)
+            if(prodIndex>= 0){
+                this.cart[prodIndex].quantity += 1;
+            }else{
+                this.cart.push(this.product)
+            }
+            this.product.stock-=1
             
         }
     }
