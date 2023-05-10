@@ -20,11 +20,11 @@
     <div id="app">
         <header>
             <h3>E-Commerce</h3>
-            <button class="cart" v-on:click="cartOpen = !cartOpen">Shopping Cart (0)</button>
+            <button class="cart" v-on:click="cartOpen = !cartOpen">Shopping Cart ({{cart.length}})</button>
             <div class="cart-content" v-show="cartOpen">
                 <div class="cart-content__product" v-for="(product,index) in cart" :key="index" :class="{'bg-gray': index & 1}">
                     <img v-bind:src="product.images[0].image" :alt="product.name.toUpperCase()">
-                    <span>{{product.name}}  -  {{new Intl.NumberFormat("es-AR", { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(product.price)}}</span>
+                    <span>{{product.name}}  -  {{new Intl.NumberFormat("es-AR", { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(product.price)}} ({{product.quantity}})</span>
                 </div>
             </div>
         </header>
@@ -52,9 +52,9 @@
                 </p>
                 <div class="discount">
                     <span>Discount code</span>
-                    <input type="text" placeholder="Enter your code..." @keyup.enter="product.price *= 50/100">
+                    <input type="text" placeholder="Enter your code..." @keyup.enter="applyDiscount($event)">
                 </div>
-                <button :disabled="product.stock == 0" @click="product.stock -= 1">Add to cart</button>
+                <button :disabled="product.stock == 0" @click="addToCart">Add to cart</button>
 
             </section>
 
