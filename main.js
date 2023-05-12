@@ -19,23 +19,35 @@ const app = createApp({
                 }
         ],
         new:false,
-        offer:true
+        offer:true,
+        quantity:1
         });
         const activeImage = ref(0);
         const cartOpen = ref(false);
         const cart = ref([]);
+        function addToCart () {
+            const prodIndex = cart.value.findIndex(prod=> prod.name === product.value.name)
+            if(prodIndex>= 0){
+                cart.value[prodIndex].quantity += 1;
+            }else{
+                cart.value.push(product.value)
+            }
+            product.value.stock-=1
+        }
         const discountCodes = ref(["commerce50","commerce20"])
         function applyDiscount(event){
-            const discountCodeIndex = discountCodes.indexOf(event.target.value)
+            const discountCodeIndex = discountCodes.value.indexOf(event.target.value)
             if (discountCodeIndex >= 0){
                 product.value.price *= 50/100
-                discountCodes.splice(discountCodeIndex,1);
+                discountCodes.value.splice(discountCodeIndex,1);
             }
         }
 
-        setTimeout(() => {
-            activeImage.value = 1
-        }, 2000);
+
+
+        // setTimeout(() => {
+        //     activeImage.value = 1
+        // }, 2000);
 
         return{
             product,
@@ -43,6 +55,7 @@ const app = createApp({
             cartOpen,
             cart,
             //functions
+            addToCart,
             applyDiscount
         };
 
