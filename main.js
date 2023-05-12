@@ -24,6 +24,14 @@ const app = createApp({
         const activeImage = ref(0);
         const cartOpen = ref(false);
         const cart = ref([]);
+        const discountCodes = ref(["commerce50","commerce20"])
+        function applyDiscount(event){
+            const discountCodeIndex = discountCodes.indexOf(event.target.value)
+            if (discountCodeIndex >= 0){
+                product.value.price *= 50/100
+                discountCodes.splice(discountCodeIndex,1);
+            }
+        }
 
         setTimeout(() => {
             activeImage.value = 1
@@ -33,7 +41,9 @@ const app = createApp({
             product,
             activeImage,
             cartOpen,
-            cart
+            cart,
+            //functions
+            applyDiscount
         };
 
     }

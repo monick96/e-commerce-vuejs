@@ -52,7 +52,7 @@
                 </p>
                 <div class="discount">
                     <span>Discount code</span>
-                    <input type="text" placeholder="Enter your code..." @keyup.enter="product.price *= 50/100">
+                    <input type="text" placeholder="Enter your code..." @keyup.enter="applyDiscount($event)">
                 </div>
                 <button :disabled="product.stock == 0" @click="product.stock -= 1">Add to cart</button>
 
