@@ -1,8 +1,11 @@
 //composition API version
-const {createApp, ref} = Vue;
+const {createApp, ref, reactive} = Vue;
+
 
 const app = createApp({
+    
     setup(){
+        //con ref()
         const product = ref({
             name:"Camera",
             price: 400_000,
