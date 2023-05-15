@@ -29,34 +29,8 @@
             </div>
         </header>
         <main>
-            <section class="product">
-                <div class="product__thumbnails">
-                    <div v-for="(image,index) in product.images" :key="image.thumbnail" class="thumb" :class="{active: activeImage === index}" :style="{backgroundImage: 'url(' +product.images[index].thumbnail +')'}" @click="activeImage = index"></div>
-                </div>
-                <div class="product__image">
-                    <img :src="product.images[activeImage].image" alt="product.name">
-                </div>
-            </section>
-            <section class="description">
-                <h4>{{product.name.toUpperCase()}} {{product.stock === 0 ? "😿" : "😎"}}</h4>
-                <span class="badge new" v-if="product.new"> New</span>
-                <span class="badge offer" v-if="product.offer">Offer</span>
-                <p class="description__status" v-if="product.stock > 10">Unidades disponibles✨</p>
-                <p class="description__status" v-else-if="product.stock == 10">⚠️Quedan pocas unidades⚠️</p>
-                <p class="description__status" v-else-if="product.stock >=2">⚠️el producto esta proximo a agotarse😱⚠️</p>
-                <p class="description__status" v-else-if="product.stock ==1">⚠️Ultima unidad😱⚠️</p>
-                <p class="description__status" v-else>⚠️Agotado😭⚠️</p>
-                <p class="description__price">{{new Intl.NumberFormat("es-AR", { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(product.price)}}</p>
-                <p class="description__content">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate!
-                </p>
-                <div class="discount">
-                    <span>Discount code</span>
-                    <input type="text" placeholder="Enter your code..." @keyup.enter="applyDiscount($event)">
-                </div>
-                <button :disabled="product.stock == 0" @click="addToCart">Add to cart</button>
-
-            </section>
+            <product v-for="product in products" :Key="product.name" :product="product"></product>
+            
 
         </main>
         <footer>
@@ -73,7 +47,103 @@
     </script>
     <!-- vue js -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="./main_reactive.js"></script>
+    <script>
+        const {createApp,ref,reactive, toRefs} = Vue;
+    //reactive para agrupar toda la info en un solo estado
+    //como data(), reactive() contiene propiedades reactivas
+    //con reactive()
+
+
+    const app = createApp({
+        setup(){
+            const products = ref([
+                {
+                    name:"Camera 1",
+                    price: 400_000,
+                    stock:12,
+                    content:"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate",
+                    images:[ 
+                        {
+                            image:"https://i01.appmifile.com/webfile/globalimg/products/m/mi-360-home-security-camera-2k/overview_01.jpg",
+                            thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOtnXJ0k6SlzdgmVQVgGz3PcdBcxRTUpjaZQ&usqp=CAU"
+                        },
+                        {
+                            image:"https://upload.wikimedia.org/wikipedia/commons/4/4f/YI_1080P_Home_Camera_Photo.jpg",
+                            thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGddu3MsmzENjoU7NU2fnFU9Uk-mBK1GOinw&usqp=CAU",
+                        }
+                ],
+                new:false,
+                offer:true,
+                quantity:1
+                },
+                {
+                    name:"Camera 2",
+                    price: 400_000,
+                    stock:8,
+                    content:"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate",
+                    images:[ 
+                        {
+                            image:"https://i01.appmifile.com/webfile/globalimg/products/m/mi-360-home-security-camera-2k/overview_01.jpg",
+                            thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOtnXJ0k6SlzdgmVQVgGz3PcdBcxRTUpjaZQ&usqp=CAU"
+                        },
+                        {
+                            image:"https://upload.wikimedia.org/wikipedia/commons/4/4f/YI_1080P_Home_Camera_Photo.jpg",
+                            thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGddu3MsmzENjoU7NU2fnFU9Uk-mBK1GOinw&usqp=CAU",
+                        }
+                ],
+                new:false,
+                offer:true,
+                quantity:1
+                },
+                {
+                    name:"Camera 3",
+                    price: 400_000,
+                    stock:10,
+                    content:"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate",
+                    images:[ 
+                        {
+                            image:"https://i01.appmifile.com/webfile/globalimg/products/m/mi-360-home-security-camera-2k/overview_01.jpg",
+                            thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOtnXJ0k6SlzdgmVQVgGz3PcdBcxRTUpjaZQ&usqp=CAU"
+                        },
+                        {
+                            image:"https://upload.wikimedia.org/wikipedia/commons/4/4f/YI_1080P_Home_Camera_Photo.jpg",
+                            thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGddu3MsmzENjoU7NU2fnFU9Uk-mBK1GOinw&usqp=CAU",
+                        }
+                ],
+                new:false,
+                offer:true,
+                quantity:1
+                }
+            ])
+            
+            //desestructuring para no tener que estar agregando el productState en todos los lugares donde se usaban como product
+            //const {product} = productState;
+            
+            const cartState = reactive({
+                cartOpen:false,
+                cart:[]
+            });
+            //desestructuring para no tener que estar agregando el cartState en todos los lugares donde se usaban como cart
+            const {cart} = cartState;
+
+
+            // setTimeout(() => {
+            //     activeImage.value = 1
+            // }, 2000);
+
+            return{
+                ...toRefs(cartState),
+                products
+            };
+
+        }
+    })
+    </script>
+    <script src="./product.js"></script>
+    <script>
+        app.mount("#app")
+    </script>
+    <!-- <script src="./main_reactive.js"></script> -->
     <!-- <script src="./main_ref.js"></script> -->
 
 
