@@ -19,7 +19,7 @@ app.component("product",{
         <p class="description__status" v-else-if="product.stock >=2">⚠️el producto esta proximo a agotarse😱⚠️</p>
         <p class="description__status" v-else-if="product.stock ==1">⚠️Ultima unidad😱⚠️</p>
         <p class="description__status" v-else>⚠️Agotado😭⚠️</p>
-        <p class="description__price">{{new Intl.NumberFormat("es-AR", { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(product.price)}}</p>
+        <p class="description__price" :style="{color:price_color}">{{new Intl.NumberFormat("es-AR", { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(product.price)}}</p>
         <p class="description__content">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate!
         </p>
@@ -35,7 +35,8 @@ app.component("product",{
     data() {
         return {
             activeImage: 0,
-            discountCodes:["commerce50","commerce20"]
+            discountCodes:["commerce50","commerce20"],
+            price_color:"rgb(104, 104, 209)"
         }
     },
     methods: {
@@ -50,6 +51,16 @@ app.component("product",{
             this.$emit("sendtocart",this.product);
         }
         
+    },
+    watch:{
+        activeImage(value,oldValue){
+            console.log(value,oldValue);
+        },
+        "product.stock"(stock){
+            if (stock <= 1){
+                this.price_color= "rgb(188 30 67)";
+            }
+        }
     }
 })
 // const Product = {
