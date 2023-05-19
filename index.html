@@ -29,7 +29,7 @@
             </div>
         </header>
         <main>
-            <product v-for="product in products" :Key="product.name" :product="product"></product>
+            <product v-for="product in products" :Key="product.name" :product="product" @sendtocart="addToCart($event)"></product>
             
 
         </main>
@@ -126,6 +126,17 @@
             //desestructuring para no tener que estar agregando el cartState en todos los lugares donde se usaban como cart
             const {cart} = cartState;
 
+            function addToCart (product) {
+                const prodIndex = cart.findIndex(prod=> prod.name === product.name)
+                
+                if(prodIndex>= 0){
+                    cart[prodIndex].quantity += 1;
+                }else{
+                    cart.push(product)
+                }
+                product.stock-=1
+            }
+
 
             // setTimeout(() => {
             //     activeImage.value = 1
@@ -133,7 +144,9 @@
 
             return{
                 ...toRefs(cartState),
+                addToCart,
                 products
+
             };
 
         }

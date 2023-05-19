@@ -25,28 +25,24 @@ app.component("product", {
             <span>Discount code</span>
             <input type="text" placeholder="Enter your code..." @keyup.enter="applyDiscount($event)">
         </div>
-        <button :disabled="product.stock == 0" @click="addToCart">Add to cart</button>
+        <button :disabled="product.stock == 0" @click="sendToCart">Add to cart</button>
     </section>
     `,
     props:["product"],
-    setup(props) {
+    emits:["sendtocart"],
+    setup(props,context) {
         const productState = reactive({
             activeImage:0
         });
         //desestructuring para no tener que estar agregando el props.product en todos los lugares donde se usaban como product
         const {product} = props;
 
-
-        function addToCart () {
-            const prodIndex = cart.findIndex(prod=> prod.name === product.name)
-            
-            if(prodIndex>= 0){
-                cart[prodIndex].quantity += 1;
-            }else{
-                cart.push(product)
-            }
-            product.stock-=1
+        function sendToCart() {
+            context.emit("sendtocart",product)
         }
+
+
+        
         //queda como referencia
         const discountCodes = ref(["commerce50","commerce20"])
 
@@ -62,8 +58,8 @@ app.component("product", {
             ...toRefs(productState),//= a product: productState.product
             // ...toRefs(cartState),
             //functions
-            addToCart,
-            applyDiscount
+            applyDiscount,
+            sendToCart
         };
     }
 });
