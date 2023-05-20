@@ -17,7 +17,7 @@ app.component("product", {
         <p class="description__status" v-else-if="product.stock >=2">⚠️el producto esta proximo a agotarse😱⚠️</p>
         <p class="description__status" v-else-if="product.stock ==1">⚠️Ultima unidad😱⚠️</p>
         <p class="description__status" v-else>⚠️Agotado😭⚠️</p>
-        <p class="description__price">{{new Intl.NumberFormat("es-AR", { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(product.price)}}</p>
+        <p class="description__price" :style="{color: price_color}">{{new Intl.NumberFormat("es-AR", { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(product.price)}}</p>
         <p class="description__content">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate!
         </p>
@@ -32,7 +32,8 @@ app.component("product", {
     emits:["sendtocart"],
     setup(props,context) {
         const productState = reactive({
-            activeImage:0
+            activeImage:0,
+            price_color:"rgb(104,104,209)"
         });
         //desestructuring para no tener que estar agregando el props.product en todos los lugares donde se usaban como product
         const {product} = props;
@@ -53,6 +54,17 @@ app.component("product", {
                 discountCodes.value.splice(discountCodeIndex,1);
             }
         }
+
+        watch(
+            ()=>productState.activeImage,(val,oldVal) => {
+            console.log(val,oldVal)
+        })
+        watch(
+            ()=>props.product.stock,(stock) => {
+            if (stock<=1){
+                productState.price_color = "rgb(188, 30, 67)"
+            }
+        })
 
         return{
             ...toRefs(productState),//= a product: productState.product
