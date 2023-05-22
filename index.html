@@ -53,67 +53,9 @@
             //data() todo lo que contiene data corresponde a un proxy, todo lo que contiene data es observado por vue para reaccionar y ejecutar cuando alguna propiedad cambie
             data(){
                 return{
-                    products:[
-                        {
-                            name:"Camera1",
-                            price: 400_000,
-                            stock:12,
-                            content:"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate",
-                            images:[ 
-                                {
-                                    image:"https://i01.appmifile.com/webfile/globalimg/products/m/mi-360-home-security-camera-2k/overview_01.jpg",
-                                    thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOtnXJ0k6SlzdgmVQVgGz3PcdBcxRTUpjaZQ&usqp=CAU"
-                                },
-                                {
-                                    image:"https://upload.wikimedia.org/wikipedia/commons/4/4f/YI_1080P_Home_Camera_Photo.jpg",
-                                thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGddu3MsmzENjoU7NU2fnFU9Uk-mBK1GOinw&usqp=CAU",
-                                }
-                        ],
-                        new:false,
-                        offer:true,
-                        quantity:1
-                        },
-                        {
-                            name:"Camera2",
-                            price: 400_000,
-                            stock:12,
-                            content:"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate",
-                            images:[ 
-                                {
-                                    image:"https://i01.appmifile.com/webfile/globalimg/products/m/mi-360-home-security-camera-2k/overview_01.jpg",
-                                    thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOtnXJ0k6SlzdgmVQVgGz3PcdBcxRTUpjaZQ&usqp=CAU"
-                                },
-                                {
-                                    image:"https://upload.wikimedia.org/wikipedia/commons/4/4f/YI_1080P_Home_Camera_Photo.jpg",
-                                thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGddu3MsmzENjoU7NU2fnFU9Uk-mBK1GOinw&usqp=CAU",
-                                }
-                        ],
-                        new:true,
-                        offer:false,
-                        quantity:1
-                        },
-                        {
-                            name:"Camera3",
-                            price: 400_000,
-                            stock:12,
-                            content:"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate",
-                            images:[ 
-                                {
-                                    image:"https://i01.appmifile.com/webfile/globalimg/products/m/mi-360-home-security-camera-2k/overview_01.jpg",
-                                    thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOtnXJ0k6SlzdgmVQVgGz3PcdBcxRTUpjaZQ&usqp=CAU"
-                                },
-                                {
-                                    image:"https://upload.wikimedia.org/wikipedia/commons/4/4f/YI_1080P_Home_Camera_Photo.jpg",
-                                thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGddu3MsmzENjoU7NU2fnFU9Uk-mBK1GOinw&usqp=CAU",
-                                }
-                        ],
-                        new:false,
-                        offer:true,
-                        quantity:1
-                        }
-                    ],
+                    products:[],
                     cartOpen:false,
-                    total:0,
+                    //total:0,for watcher
                     cart:[],
                 }
             },
@@ -129,6 +71,7 @@
                     
                 }
             },
+            /*
             watch:{
                 cart:{
                     handler(cart){
@@ -140,6 +83,23 @@
                     },
                     deep:true
                 }
+            }
+            */
+            computed: {
+                total(){
+                    return this.cart.reduce((prev,curr)=>{
+                        const prevPrice = prev.price || prev;
+                        const prevQuantity = prev.quantity || 1;
+                        return prevPrice * prevQuantity + curr.price * curr.quantity
+                    },0);
+                }
+            },
+            /*beforeCreate() {
+                console.log("beforeCreate")
+            },
+            */
+            created() {
+                console.log("Created")
             }
         });
     </script>
