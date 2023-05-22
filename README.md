@@ -1,2 +1,2 @@
 ﻿# e-commerce-vuejs
-api uded : https://my-json-server.typicode.com/monick96/demo_products/products
+api used : https://my-json-server.typicode.com/monick96/demo_products/products
