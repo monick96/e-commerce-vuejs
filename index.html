@@ -123,10 +123,20 @@
             const cartState = reactive({
                 cartOpen:false,
                 cart:[],
-                total:0
+                //total:0
             });
             //desestructuring para no tener que estar agregando el cartState en todos los lugares donde se usaban como cart
             const {cart} = cartState;
+
+             //instead watch used computed properties to change total products in cart of product
+            //or other way is declareted directly in cart state
+            const total = computed(() => {
+                return cartState.cart.reduce((prev,curr)=>{
+                    const prevPrice = prev.price || prev;
+                    const prevQuantity = prev.quantity || 1;
+                    return prevPrice * prevQuantity + curr.price * curr.quantity
+                },0);
+            })
 
             function addToCart (product) {
                 const prodIndex = cart.findIndex(prod=> prod.name === product.name)
@@ -143,16 +153,18 @@
             // setTimeout(() => {
             //     activeImage.value = 1
             // }, 2000);
+            /*
             watch(cartState.cart,(val,oldVal) => {
                 cartState.total = cartState.cart.reduce((prev,curr)=>{
                     const prevPrice = prev.price || prev;
                     const prevQuantity = prev.quantity || 1;
                     return prevPrice * prevQuantity + curr.price * curr.quantity
                 },0);
-            })
-
+            }) 
+            */
             return{
                 ...toRefs(cartState),
+                total,
                 addToCart,
                 products
 
