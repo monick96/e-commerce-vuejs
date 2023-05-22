@@ -33,10 +33,21 @@ app.component("product", {
     setup(props,context) {
         const productState = reactive({
             activeImage:0,
-            price_color:"rgb(104,104,209)"
+            price_color: computed(() => props.product.stock<=1 ? "rgb(188, 30, 67)": "rgb(104,104,209)")
+            //price_color:"rgb(104,104,209)"
         });
         //desestructuring para no tener que estar agregando el props.product en todos los lugares donde se usaban como product
         const {product} = props;
+
+        //instead watch used computed properties to change price color of product
+        //or other way is declareted directly in product state
+        // const price_color = computed(() => {
+        //     if(props.product.stock <=1){
+        //         return "rgb(188, 30, 67)"
+        //     }
+        //     return "rgb(104,104,209)"
+        // })
+
 
         function sendToCart() {
             context.emit("sendtocart",product)
@@ -59,17 +70,18 @@ app.component("product", {
             ()=>productState.activeImage,(val,oldVal) => {
             console.log(val,oldVal)
         })
-        watch(
-            ()=>props.product.stock,(stock) => {
-            if (stock<=1){
-                productState.price_color = "rgb(188, 30, 67)"
-            }
-        })
+        // watch(
+        //     ()=>props.product.stock,(stock) => {
+        //     if (stock<=1){
+        //         productState.price_color = "rgb(188, 30, 67)"
+        //     }
+        // })
 
         return{
             ...toRefs(productState),//= a product: productState.product
             // ...toRefs(cartState),
             //functions
+           // price_color,
             applyDiscount,
             sendToCart
         };
