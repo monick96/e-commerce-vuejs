@@ -20,6 +20,9 @@
     <div id="app">
         <header>
             <h3>E-Commerce</h3>
+            <div class="input-container">
+                <input type="text" v-model="search"  placeholder="Search product..">
+            </div>
             <button class="cart" v-on:click="cartOpen = !cartOpen">Shopping Cart ({{cart.length}})</button>
             <div class="cart-content" v-show="cartOpen">
                 <div class="cart-content__product" v-for="(product,index) in cart" :key="index" :class="{'bg-gray': index & 1}">
@@ -30,7 +33,7 @@
             </div>
         </header>
         <main>
-            <product v-for="product in products" :Key="product.name" :product="product" @sendtocart="addToCart($event)"></product>
+            <product v-for="product in searchProducts" :Key="product.name" :product="product" @sendtocart="addToCart($event)"></product>
             
 
         </main>
@@ -57,65 +60,7 @@
 
     const app = createApp({
         setup(){
-            const products = ref([
-                {
-                    name:"Camera 1",
-                    price: 400_000,
-                    stock:12,
-                    content:"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate",
-                    images:[ 
-                        {
-                            image:"https://i01.appmifile.com/webfile/globalimg/products/m/mi-360-home-security-camera-2k/overview_01.jpg",
-                            thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOtnXJ0k6SlzdgmVQVgGz3PcdBcxRTUpjaZQ&usqp=CAU"
-                        },
-                        {
-                            image:"https://upload.wikimedia.org/wikipedia/commons/4/4f/YI_1080P_Home_Camera_Photo.jpg",
-                            thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGddu3MsmzENjoU7NU2fnFU9Uk-mBK1GOinw&usqp=CAU",
-                        }
-                ],
-                new:false,
-                offer:true,
-                quantity:1
-                },
-                {
-                    name:"Camera 2",
-                    price: 400_000,
-                    stock:8,
-                    content:"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate",
-                    images:[ 
-                        {
-                            image:"https://i01.appmifile.com/webfile/globalimg/products/m/mi-360-home-security-camera-2k/overview_01.jpg",
-                            thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOtnXJ0k6SlzdgmVQVgGz3PcdBcxRTUpjaZQ&usqp=CAU"
-                        },
-                        {
-                            image:"https://upload.wikimedia.org/wikipedia/commons/4/4f/YI_1080P_Home_Camera_Photo.jpg",
-                            thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGddu3MsmzENjoU7NU2fnFU9Uk-mBK1GOinw&usqp=CAU",
-                        }
-                ],
-                new:true,
-                offer:true,
-                quantity:1
-                },
-                {
-                    name:"Camera 3",
-                    price: 400_000,
-                    stock:10,
-                    content:"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate",
-                    images:[ 
-                        {
-                            image:"https://i01.appmifile.com/webfile/globalimg/products/m/mi-360-home-security-camera-2k/overview_01.jpg",
-                            thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOtnXJ0k6SlzdgmVQVgGz3PcdBcxRTUpjaZQ&usqp=CAU"
-                        },
-                        {
-                            image:"https://upload.wikimedia.org/wikipedia/commons/4/4f/YI_1080P_Home_Camera_Photo.jpg",
-                            thumbnail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGddu3MsmzENjoU7NU2fnFU9Uk-mBK1GOinw&usqp=CAU",
-                        }
-                ],
-                new:true,
-                offer:false,
-                quantity:1
-                }
-            ])
+            const products = ref([])
             
             //desestructuring para no tener que estar agregando el productState en todos los lugares donde se usaban como product
             //const {product} = productState;
@@ -124,9 +69,23 @@
                 cartOpen:false,
                 cart:[],
                 //total:0
+                
             });
             //desestructuring para no tener que estar agregando el cartState en todos los lugares donde se usaban como cart
             const {cart} = cartState;
+
+            const searchState = reactive({
+                search:"",
+                searchProducts: computed(() =>{
+                    if(searchState.search === ""){
+                        return products.value;
+                    }else{
+                        return products.value.filter((product) => {
+                            return product.name.toLowerCase().includes(searchState.search);
+                        });
+                    }
+                })
+            })
 
              //instead watch used computed properties to change total products in cart of product
             //or other way is declareted directly in cart state
@@ -137,6 +96,9 @@
                     return prevPrice * prevQuantity + curr.price * curr.quantity
                 },0);
             })
+
+            
+
 
             function addToCart (product) {
                 const prodIndex = cart.findIndex(prod=> prod.name === product.name)
@@ -163,11 +125,16 @@
             }) 
             */
 
-            //srtup() == cvcreated()
-            fetch()
+            //setup() == created()
+            fetch("https://my-json-server.typicode.com/monick96/demo_products/products")
+                .then(res => res.json())
+                .then(data =>{
+                    products.value = data
+            });
 
             return{
                 ...toRefs(cartState),
+                ...toRefs(searchState),
                 total,
                 addToCart,
                 products
