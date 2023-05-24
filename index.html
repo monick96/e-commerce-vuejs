@@ -20,6 +20,10 @@
     <div id="app">
         <header>
             <h3>E-Commerce</h3>
+            <div class="input-container">
+                <input type="text" v-model="search"  placeholder="Search product..">
+                {{searchProducts}}
+            </div>
             <button class="cart" v-on:click="cartOpen = !cartOpen">Shopping Cart ({{cart.length}})</button>
             <div class="cart-content" v-show="cartOpen">
                 <div class="cart-content__product" v-for="(product,index) in cart" :key="index" :class="{'bg-gray': index & 1}">
@@ -54,9 +58,11 @@
             data(){
                 return{
                     products:[],
+                    backupProducts:[],
                     cartOpen:false,
                     //total:0,for watcher
                     cart:[],
+                    search:""
                 }
             },
             methods:{   
@@ -92,6 +98,13 @@
                         const prevQuantity = prev.quantity || 1;
                         return prevPrice * prevQuantity + curr.price * curr.quantity
                     },0);
+                },
+                searchProducts(){
+                    if(this.search == ""){
+                        this.products = this.backupProducts
+                    }else{
+                        this.products= this.backupProducts.filter((product) => { return product.name.toLowerCase().includes(this.search.toLowerCase());});
+                    }
                 }
             },
             /*beforeCreate() {
@@ -103,6 +116,7 @@
                     .then(res => res.json())
                     .then(data =>{
                         this.products = data
+                        this.backupProducts = data
                 })
             }
         });
