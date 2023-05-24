@@ -19,9 +19,7 @@ app.component("product",{
         <p class="description__status" v-else-if="product.stock ==1">⚠️Ultima unidad😱⚠️</p>
         <p class="description__status" v-else>⚠️Agotado😭⚠️</p>
         <p class="description__price" :style="{color:price_color}">{{new Intl.NumberFormat("es-AR", { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(product.price)}}</p>
-        <p class="description__content">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia velit aspernatur voluptatibus harum illo corporis nam, a commodi est doloremque vero autem hic nulla, cum non excepturi iusto, fugit voluptate!
-        </p>
+        <p class="description__content">{{product.content}}</p>
         <div class="discount">
             <span>Discount code</span>
             <input type="text" placeholder="Enter your code..." @keyup.enter="applyDiscount($event)">

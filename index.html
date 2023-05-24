@@ -99,7 +99,11 @@
             },
             */
             created() {
-                console.log("Created")
+                fetch("https://my-json-server.typicode.com/monick96/demo_products/products")
+                    .then(res => res.json())
+                    .then(data =>{
+                        this.products = data
+                })
             }
         });
     </script>
